@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora Financiera - Costo de Capital</title>
+
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background:#0f172a;
+      color:white;
+      margin:0;
+      padding:20px;
+    }
+
+    .container{
+      max-width:500px;
+      margin:auto;
+    }
+
+    h1{
+      text-align:center;
+      font-size:22px;
+      margin-bottom:10px;
+    }
+
+    /* MENÚ PRINCIPAL */
+    .menu{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-bottom:15px;
+    }
+
+    .menu button{
+      padding:12px;
+      border:none;
+      border-radius:8px;
+      background:#334155;
+      color:white;
+      font-size:14px;
+      cursor:pointer;
+    }
+
+    .menu button:hover{
+      background:#475569;
+    }
+
+    /* TARJETAS */
+    .card{
+      background:#1e293b;
+      padding:15px;
+      border-radius:12px;
+      display:none;
+    }
+
+    input{
+      width:100%;
+      padding:10px;
+      margin-top:8px;
+      margin-bottom:10px;
+      border-radius:8px;
+      border:none;
+    }
+
+    button.calc{
+      width:100%;
+      padding:12px;
+      background:#3b82f6;
+      border:none;
+      color:white;
+      border-radius:8px;
+      font-size:16px;
+    }
+
+    .result{
+      margin-top:10px;
+      font-size:18px;
+      font-weight:bold;
+      color:#22c55e;
+    }
+
+    .back{
+      margin-top:10px;
+      background:#ef4444;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <h1>Calculadora Financiera</h1>
+
+  <!-- MENÚ PRINCIPAL (PASO 1 BASE) -->
+  <div class="menu" id="menu">
+    <button onclick="mostrar('preferentes')">Acciones Preferentes</button>
+    <button onclick="alert('Próximamente: Costo de deuda')">Costo de Deuda</button>
+    <button onclick="alert('Próximamente: WACC')">WACC</button>
+  </div>
+
+  <!-- SECCIÓN 1 -->
+  <div class="card" id="preferentes">
+    <h3>Acciones Preferentes</h3>
+
+    <label>Dividendo anual (D)</label>
+    <input type="number" id="dividendo">
+
+    <label>Precio de venta (P0)</label>
+    <input type="number" id="precio">
+
+    <label>Costos de flotación (F)</label>
+    <input type="number" id="flotacion">
+
+    <button class="calc" onclick="calcularPreferentes()">Calcular</button>
+
+    <div class="result" id="resultado"></div>
+
+    <button class="calc back" onclick="volver()">Volver</button>
+  </div>
+
+</div>
+
+<script>
+
+function mostrar(id){
+  document.getElementById("menu").style.display = "none";
+  document.getElementById(id).style.display = "block";
+}
+
+function volver(){
+  document.getElementById("menu").style.display = "flex";
+  document.getElementById("preferentes").style.display = "none";
+}
+
+function calcularPreferentes(){
+
+  let D = parseFloat(document.getElementById("dividendo").value);
+  let P0 = parseFloat(document.getElementById("precio").value);
+  let F = parseFloat(document.getElementById("flotacion").value);
+
+  if(isNaN(D) || isNaN(P0) || isNaN(F)){
+    document.getElementById("resultado").innerText = "Llena todos los campos";
+    return;
+  }
+
+  let costo = D / (P0 - F);
+  let porcentaje = (costo * 100).toFixed(2);
+
+  document.getElementById("resultado").innerText =
+    "Costo de capital = " + porcentaje + "%";
+}
+
+</script>
+
+</body>
+</html>
